@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  patient-service:
+    container_name: patient-service
+    build:
+      context: ./patient-service
+    volumes:
+      - ./patient-service:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - healthnet
+    environment:
+      - DEBUG=1
+
+  doctor-service:
+    container_name: doctor-service
+    build:
+      context: ./doctor-service
+    volumes:
+      - ./doctor-service:/code
+    ports:
+      - "8002:8000"
+    networks:
+      - healthnet
+    environment:
+      - DEBUG=1
+
+  appointment-service:
+    container_name: appointment-service
+    build:
+      context: ./appointment-service
+    volumes:
+      - ./appointment-service:/code
+    ports:
+      - "8001:8000"
+    depends_on:
+      - patient-service
+      - doctor-service
+    networks:
+      - healthnet
+    environment:
+      - DEBUG=1
+
+networks:
+  healthnet:
+    driver: bridge
