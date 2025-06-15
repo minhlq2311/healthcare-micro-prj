@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'doctor_service.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'doctor_db',
+        'USER': 'doctor_user',
+        'PASSWORD': '123456',
+        'HOST': 'postgres-doctor',  # Assuming the PostgreSQL service is named 'postgres-doctor' in Docker Compose
+        'PORT': '5432',
     }
 }
 
