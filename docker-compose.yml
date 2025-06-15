@@ -1,6 +1,23 @@
 version: '3.9'
 
 services:
+  # MySQL riêng cho patient-service
+  mysql-patient:
+    image: mysql:8.0
+    container_name: mysql-patient
+    restart: always
+    environment:
+      MYSQL_DATABASE: patient_db
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: patient_user
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3307:3306"  # nếu bạn muốn truy cập từ máy host
+    volumes:
+      - mysql_patient_data:/var/lib/mysql
+    networks:
+      - healthnet
+
   patient-service:
     container_name: patient-service
     build:
@@ -11,6 +28,8 @@ services:
       - "8000:8000"
     networks:
       - healthnet
+    depends_on:
+      - mysql-patient
     environment:
       - DEBUG=1
 
@@ -42,6 +61,9 @@ services:
       - healthnet
     environment:
       - DEBUG=1
+
+volumes:
+  mysql_patient_data:
 
 networks:
   healthnet:

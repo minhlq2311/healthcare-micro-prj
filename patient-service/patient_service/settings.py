@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'patient_service.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'patient_db',
+        'USER': 'patient_user',
+        'PASSWORD': '123456',
+        'HOST': 'mysql-patient',  # tên service trong docker-compose
+        'PORT': '3306',
     }
 }
 
